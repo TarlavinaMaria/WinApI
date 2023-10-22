@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinApp", "WinApp\WinApp.vcxproj", "{39F72EC5-45E2-4F25-BF49-7ABD56675CA2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinApI", "WinApp\WinApp.vcxproj", "{39F72EC5-45E2-4F25-BF49-7ABD56675CA2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DialogBox", "DialogBox\DialogBox.vcxproj", "{0B0B39AE-CFB9-4D2C-9681-5AEB9A65496B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{39F72EC5-45E2-4F25-BF49-7ABD56675CA2}.Release|x64.Build.0 = Release|x64
 		{39F72EC5-45E2-4F25-BF49-7ABD56675CA2}.Release|x86.ActiveCfg = Release|Win32
 		{39F72EC5-45E2-4F25-BF49-7ABD56675CA2}.Release|x86.Build.0 = Release|Win32
+		{0B0B39AE-CFB9-4D2C-9681-5AEB9A65496B}.Debug|x64.ActiveCfg = Debug|x64
+		{0B0B39AE-CFB9-4D2C-9681-5AEB9A65496B}.Debug|x64.Build.0 = Debug|x64
+		{0B0B39AE-CFB9-4D2C-9681-5AEB9A65496B}.Debug|x86.ActiveCfg = Debug|Win32
+		{0B0B39AE-CFB9-4D2C-9681-5AEB9A65496B}.Debug|x86.Build.0 = Debug|Win32
+		{0B0B39AE-CFB9-4D2C-9681-5AEB9A65496B}.Release|x64.ActiveCfg = Release|x64
+		{0B0B39AE-CFB9-4D2C-9681-5AEB9A65496B}.Release|x64.Build.0 = Release|x64
+		{0B0B39AE-CFB9-4D2C-9681-5AEB9A65496B}.Release|x86.ActiveCfg = Release|Win32
+		{0B0B39AE-CFB9-4D2C-9681-5AEB9A65496B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

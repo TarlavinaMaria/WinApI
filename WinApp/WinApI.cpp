@@ -12,5 +12,4 @@ INT WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		MB_SYSTEMMODAL //|
 		//MB_RIGHT       | MB_RTLREADING
 	);
-	return 0;
 }
