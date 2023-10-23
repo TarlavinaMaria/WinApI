@@ -37,12 +37,16 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			CONST INT SIZE = 256;
 			CHAR sz_buffer[SIZE] = {};
+			//IDC_COMBO1 - ID дочернего окна
 			HWND hCombo = GetDlgItem(hwnd, IDC_COMBO1);
+			//отравили сообщение с выделенным элементом CB_GETCURSEL, номер выбранного элемента
 			int i = SendMessage(hCombo, CB_GETCURSEL, 0, 0);
+			//сам элемент
 			SendMessage(hCombo, CB_GETLBTEXT, i, (LPARAM)sz_buffer);
 			CHAR sz_message[SIZE]{};
 			//%i - integer - 
 			//%s - string - строковое значение
+			//sprintf - 
 			sprintf(sz_message, "Вы выбрали элемент № %i, со значение \"%s\"", i, sz_buffer);
 			MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONINFORMATION);
 		}
