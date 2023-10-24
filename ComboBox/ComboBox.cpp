@@ -5,7 +5,7 @@
 
 CONST CHAR* g_sz_VALUES[] = { "This", "is","first", "Combo", "Box" };
 
-BOOL CALLBACK DlgProc(HWND hwnd, UINT uMSG, WPARAM wParam, LPARAM lParam);
+BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
