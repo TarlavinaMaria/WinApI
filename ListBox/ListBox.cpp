@@ -1,10 +1,9 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 #include<Windows.h>
 #include<cstdio>
 #include"resource.h"
 
 CONST CHAR* g_sz_VALUES[] = { "Haas, Jonathan", "Pai, Jyothi","Hanif, Kerim", "Anderberg, Michael", "Raposo, Rui" };
-
 
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -18,7 +17,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
-	case WM_INITDIALOG:// Инициализация диалогового окна
+	case WM_INITDIALOG:// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РґРёР°Р»РѕРіРѕРІРѕРіРѕ РѕРєРЅР°
 	{
 		HWND hList = GetDlgItem(hwnd, IDC_LIST1);
 		for (int i = 0; i < sizeof(g_sz_VALUES) / sizeof(g_sz_VALUES[0]); i++)
@@ -27,7 +26,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 	}
 	break;
-	case WM_COMMAND:// Обработчик команд
+	case WM_COMMAND:// РћР±СЂР°Р±РѕС‚С‡РёРє РєРѕРјР°РЅРґ
 		switch (LOWORD(wParam))
 		{
 		case IDOK:
@@ -38,7 +37,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			int i = SendMessage(hList, LB_GETCURSEL, 0, 0);
 			SendMessage(hList, LB_GETTEXT, i, (LPARAM)sz_buffer);
 			CHAR sz_message[SIZE]{};
-			sprintf(sz_message, "Вы выбрали элемент № %i, со значение \"%s\"", i, sz_buffer);
+			sprintf(sz_message, "Р’С‹ РІС‹Р±СЂР°Р»Рё СЌР»РµРјРµРЅС‚ в„– %i, СЃРѕ Р·РЅР°С‡РµРЅРёРµ \"%s\"", i, sz_buffer);
 			MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONINFORMATION);
 		}
 		break;
