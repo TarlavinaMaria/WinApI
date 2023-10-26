@@ -41,6 +41,28 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONINFORMATION);
 		}
 		break;
+		case IDC_ADD_LIST://поле добавления текста
+		{
+			CONST INT SIZE = 256;
+			CHAR sz_buffer[SIZE]{};
+			HWND hList = GetDlgItem(hwnd, IDC_ADD_LIST);
+			SendMessage(hList, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+		}
+		break;
+		case IDC_ADD:
+		{
+			//1)Создаем буфер чтения
+			CONST INT SIZE = 256;
+			CHAR sz_buffer[SIZE] = {};
+			//2) Получаем обработчик текстового поля 
+			HWND hAdd_list = GetDlgItem(hwnd, IDC_ADD_LIST);
+			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
+			//3) Читаем текст из текствого поля 
+			SendMessage(hAdd_list, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+			//4) Загружем содержимое тектсовго буфера в поле
+			SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
+		}
+			break;
 		case IDCANCEL:EndDialog(hwnd, 0); break;
 		}
 		break;
