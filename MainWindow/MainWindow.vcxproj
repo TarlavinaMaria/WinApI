@@ -138,6 +138,8 @@
   <ItemGroup>
     <Image Include="coffee.ico" />
     <Image Include="cuces.ico" />
+    <Image Include="donut.ico" />
+    <Image Include="macaroon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
