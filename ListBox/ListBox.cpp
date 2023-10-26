@@ -33,7 +33,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			CONST INT SIZE = 256;
 			CHAR sz_buffer[SIZE] = {};
-			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
+			HWND hList = GetDlgItem(hwnd, IDC_LIST);
 			int i = SendMessage(hList, LB_GETCURSEL, 0, 0);
 			SendMessage(hList, LB_GETTEXT, i, (LPARAM)sz_buffer);
 			CHAR sz_message[SIZE]{};
@@ -41,11 +41,11 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONINFORMATION);
 		}
 		break;
-		case IDC_ADD_LIST://поле добавления текста
+		case IDC_LIST_WRITE://поле добавления текста
 		{
 			CONST INT SIZE = 256;
 			CHAR sz_buffer[SIZE]{};
-			HWND hList = GetDlgItem(hwnd, IDC_ADD_LIST);
+			HWND hList = GetDlgItem(hwnd, IDC_LIST_WRITE);
 			SendMessage(hList, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 		}
 		break;
@@ -55,12 +55,19 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			CONST INT SIZE = 256;
 			CHAR sz_buffer[SIZE] = {};
 			//2) Получаем обработчик текстового поля 
-			HWND hAdd_list = GetDlgItem(hwnd, IDC_ADD_LIST);
-			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
+			HWND hAdd_list = GetDlgItem(hwnd, IDC_LIST_WRITE);
+			HWND hList = GetDlgItem(hwnd, IDC_LIST);
 			//3) Читаем текст из текствого поля 
 			SendMessage(hAdd_list, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 			//4) Загружем содержимое тектсовго буфера в поле
 			SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
+		}
+		break;
+		case IDC_DEL:
+		{
+			HWND hList = GetDlgItem(hwnd, IDC_LIST);
+			LRESULT item = SendMessage(hList, LB_GETCURSEL, 0, 0);
+			SendMessage(hList, LB_DELETESTRING, (WPARAM)item, 0);
 		}
 			break;
 		case IDCANCEL:EndDialog(hwnd, 0); break;

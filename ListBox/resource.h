@@ -4,10 +4,10 @@
 //
 #define IDD_DIALOG1                     101
 #define IDC_LIST1                       1001
+#define IDC_LIST                        1001
 #define IDC_ADD                         1002
 #define IDC_DEL                         1003
-#define IDC_EDIT1                       1004
-#define IDC_ADD_LIST                    1004
+#define IDC_LIST_WRITE                  1004
 
 // Next default values for new objects
 // 
