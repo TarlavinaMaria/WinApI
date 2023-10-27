@@ -1,5 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include<Windows.h>
+#include<stdio.h>
 #include"resource.h"
+
 
 CONST CHAR g_sz_WINDOW_CLASS[] = "Mt Window Class";//имя класса окна
 
@@ -71,6 +75,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
+	case WM_SIZE:
+	{
+		CONST INT SIZE = 256;
+		CHAR sz_buffer[SIZE] = {};
+		HWND hwnd = GetActiveWindow();
+		RECT rect;
+		GetWindowRect(hwnd, &rect);
+		int windowWidth = rect.right - rect.left;
+		int windowHeight = rect.bottom - rect.top;
+		sprintf(sz_buffer, "Width=%d, Heigth=%d", windowWidth, windowHeight);
+		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+	}
 	case WM_CREATE:
 		break;
 	case WM_COMMAND:
