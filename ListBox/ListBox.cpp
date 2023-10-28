@@ -7,10 +7,11 @@ CONST CHAR* g_sz_VALUES[] = { "Haas, Jonathan", "Pai, Jyothi","Hanif, Kerim", "A
 
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
-	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), NULL, DlgProc, 0);
+	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_LIST), NULL, DlgProc, 0);
 	return 0;
 }
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -29,6 +30,11 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:// Обработчик команд
 		switch (LOWORD(wParam))
 		{
+		case IDC_BUTTON_ADD:
+		{
+			DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_ADD), hwnd, DlgProcAdd, 0);
+		}
+		break;
 		case IDOK:
 		{
 			CONST INT SIZE = 256;
@@ -41,28 +47,6 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONINFORMATION);
 		}
 		break;
-		case IDC_LIST_WRITE://поле добавления текста
-		{
-			CONST INT SIZE = 256;
-			CHAR sz_buffer[SIZE]{};
-			HWND hList = GetDlgItem(hwnd, IDC_LIST_WRITE);
-			SendMessage(hList, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
-		}
-		break;
-		case IDC_ADD:
-		{
-			//1)Создаем буфер чтения
-			CONST INT SIZE = 256;
-			CHAR sz_buffer[SIZE] = {};
-			//2) Получаем обработчик текстового поля 
-			HWND hAdd_list = GetDlgItem(hwnd, IDC_LIST_WRITE);
-			HWND hList = GetDlgItem(hwnd, IDC_LIST);
-			//3) Читаем текст из текствого поля 
-			SendMessage(hAdd_list, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
-			//4) Загружем содержимое тектсовго буфера в поле
-			SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
-		}
-		break;
 		case IDC_DEL:
 		{
 			HWND hList = GetDlgItem(hwnd, IDC_LIST);
@@ -73,6 +57,46 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case IDCANCEL:EndDialog(hwnd, 0); break;
 		}
 		break;
+	case WM_CLOSE:EndDialog(hwnd, 0);
+	}
+	return FALSE;
+}
+BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_INITDIALOG:
+		SetFocus(GetDlgItem(hwnd, IDC_EDIT_ADD));
+		break;
+	case WM_COMMAND:
+	{
+		switch (LOWORD(wParam))
+		{
+		case IDOK_ADD:
+		{
+			CONST INT SIZE = 256;
+			CHAR sz_buffer[SIZE]{};
+			HWND hEdit = GetDlgItem(hwnd, IDC_EDIT_ADD);
+			SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+
+			HWND parent = GetParent(hwnd);
+			HWND hCombo = GetDlgItem(parent, IDC_LIST);
+			if (SendMessage(hCombo, LB_FINDSTRING, -1, (LPARAM)sz_buffer) == CB_ERR)
+			{
+				if (strlen(sz_buffer) == 0)break;
+				SendMessage(hCombo, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
+				EndDialog(hwnd, 0);
+			}
+			else
+			{
+				MessageBox(hwnd, "Такое значение уже есть", "Info", MB_OK | MB_ICONINFORMATION);
+			}
+		}
+		break;
+		case IDCANCEL:EndDialog(hwnd, 0); break;
+		}
+	}
+	break;
 	case WM_CLOSE:EndDialog(hwnd, 0);
 	}
 	return FALSE;

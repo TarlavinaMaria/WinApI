@@ -81,6 +81,7 @@ BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (SendMessage(hCombo, CB_FINDSTRING, -1, (LPARAM)sz_buffer) == CB_ERR)
 			{
 				if (strlen(sz_buffer) == 0)break;
+				//CB_ADDSTRING потому что CB - ComboBox
 				SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)sz_buffer);
 				EndDialog(hwnd, 0);
 			}
