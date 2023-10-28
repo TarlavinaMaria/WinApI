@@ -141,6 +141,9 @@
     <Image Include="donut.ico" />
     <Image Include="macaroon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="cursor1.cur" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
