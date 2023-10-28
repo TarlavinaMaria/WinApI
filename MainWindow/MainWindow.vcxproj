@@ -142,7 +142,7 @@
     <Image Include="macaroon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cursor1.cur" />
+    <None Include="cursors.ani" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
