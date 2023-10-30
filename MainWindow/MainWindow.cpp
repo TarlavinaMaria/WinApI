@@ -2,6 +2,8 @@
 
 #include<Windows.h>
 #include<stdio.h>
+#include<string>
+#include<vector>
 #include"resource.h"
 
 #define IDC_COMBO 1001
@@ -11,10 +13,28 @@ CONST CHAR* g_CURSOR[] = { "busy.ani", "Working In Background.ani", "normal.ani"
 
 CONST CHAR g_sz_WINDOW_CLASS[] = "Mt Window Class";//имя класса окна
 
+
+std::vector<std::string> LoadCurcorsFromDir(const std::string& directory);
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
+	/*
+	HINSTANCE - экземпляр исполняемого файла программы в оперативной памяти.
+	Если нужно обратиться к *.exe-файлу это можно сделать через hInstance.
+	hInstance всегда можно помучить при помощи функции GetModuleHandle(NULL).
+
+	hPrevInst - предыдущий экземпляр программы. Этот параметр двано не используется.
+
+	lpCmdLine - командная строка из которой запустилась программа. 
+	Через эту командную строку программу можно передать в файл или URL. 
+
+	LPSTR - lp - Long Pointer
+
+	nCmdShow - режум отбражения окнаб свернуто в окноб свернуто в панель задач, заревнуто на весь экран
+	n - number
+	*/
+
 	//Создание главного окна
 	//1) регистрация класса окна
 	WNDCLASSEX wc;
@@ -46,14 +66,24 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		return 0;
 	}
 	//2) создание окна
+	INT screen_width = GetSystemMetrics(SM_CXSCREEN);
+	INT screen_height = GetSystemMetrics(SM_CYSCREEN);
+	//CHAR sz_msg[MAX_PATH]{};
+	//sprintf(sz_msg, "Resolution: %ix%i", screen_width, screen_height);
+	//MessageBox(NULL, sz_msg, "Screen resolution", MB_OK);
+	INT window_width = screen_width * 3 / 4;
+	INT window_height = screen_height * 3 / 4;
+
+	INT start_x = screen_width / 8;
+	INT start_y = screen_height / 8;
 	HWND hwnd = CreateWindowEx
 	(
 		NULL, //ExStyle
 		g_sz_WINDOW_CLASS,// class name
 		g_sz_WINDOW_CLASS,// window name
 		WS_OVERLAPPEDWINDOW,//у главного окна всегда будет такой стиль
-		CW_USEDEFAULT, CW_USEDEFAULT,//Position - положение окна на экране
-		CW_USEDEFAULT, CW_USEDEFAULT,// Size - размер окна
+		start_x, start_y,//Position - положение окна на экране
+		window_width, window_height,// Size - размер окна
 		NULL,//Parebt window
 		//---------------------------------------------------------------------------
 		NULL, // hMenu - для главного окна этот параметр содержит ID ресурса меню 
@@ -83,17 +113,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg)
 	{
 	case WM_SIZE:
+	case WM_MOVE://
 	{
-		CONST INT SIZE = 256;
-		CHAR sz_buffer[SIZE] = {};
-		HWND hwnd = GetActiveWindow();
 		RECT rect;
 		GetWindowRect(hwnd, &rect);
-		int windowWidth = rect.right - rect.left;
-		int windowHeight = rect.bottom - rect.top;
-		sprintf(sz_buffer, "Width=%d, Heigth=%d", windowWidth, windowHeight);
-		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+		CHAR sz_message[MAX_PATH];
+		sprintf(sz_message, "%s - Position: %ix%i, Size: %ix%i", g_sz_WINDOW_CLASS, 
+			rect.left, rect.top, 
+			rect.right - rect.left, rect.bottom - rect.top);
+		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_message);
+
 	}
+	break;
 	case WM_CREATE:
 	{
 		HWND hCombo = CreateWindowEx
@@ -101,7 +132,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		(NULL,
 			"ComboBox",
 			"",
-			WS_CHILD | WS_VISIBLE | CBN_DROPDOWN,
+			WS_CHILD | WS_VISIBLE | CBN_DROPDOWN | WS_VSCROLL,
 			10, 10,
 			200, 200,
 			hwnd,
@@ -109,9 +140,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-		for (int i = 0; i < sizeof(g_CURSOR) / sizeof(g_CURSOR[0]); i++)
+		/*for (int i = 0; i < sizeof(g_CURSOR) / sizeof(g_CURSOR[0]); i++)
 		{
 			SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)g_CURSOR[i]);
+		}*/
+		std::vector<std::string> cursors = LoadCurcorsFromDir("Cursor\\*");
+		for (int i = 0; i < cursors.size(); i++)
+		{
+			SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)cursors[i].c_str());
 		}
 		HWND bButton = CreateWindowEx
 		(
@@ -149,9 +185,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				LR_DEFAULTSIZE, LR_DEFAULTSIZE,
 				LR_LOADFROMFILE);
 			//SetCursorPos(500, 200);
+			//Задали курсор для окна, кнопки--------------------------------------------
 			SetClassLong(hwnd, GCL_HCURSOR, (LONG)hCursor);
 			SetClassLong(GetDlgItem(hwnd, IDC_BUTTON_APPLY), GCL_HCURSOR, (LONG)hCursor);
 			SetClassLong(GetDlgItem(hwnd, IDC_COMBO), GCL_HCURSOR, (LONG)hCursor);
+			//--------------------------------------------------------------------------
 			//SetCursor(hCursor);
 			return FALSE;
 		}
@@ -164,4 +202,24 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	default: return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 	return NULL;
+}
+std::vector<std::string> LoadCurcorsFromDir(const std::string& directory)
+{
+	std::vector<std::string> files;
+	WIN32_FIND_DATA data;
+
+	for (
+		HANDLE hFind = FindFirstFile(directory.c_str(), &data);
+		FindNextFile(hFind, &data);
+		)
+	{
+		//const char* std::string::c_str() возвращает си строку хнарящийся в обьекте std::string
+		if(
+			strcmp(strrchr(data.cFileName, '.'), ".cur") == 0 ||
+			strcmp(strrchr(data.cFileName, '.'), ".ani") == 0
+			)
+			files.push_back(data.cFileName);
+	}
+
+	return files;
 }
