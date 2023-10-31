@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 
 #include<Windows.h>
 #include<stdio.h>
@@ -11,7 +11,7 @@
 CONST CHAR* g_CURSOR[] = { "busy.ani", "Working In Background.ani", "normal.ani","move.ani"};
 
 
-CONST CHAR g_sz_WINDOW_CLASS[] = "Mt Window Class";//имя класса окна
+CONST CHAR g_sz_WINDOW_CLASS[] = "Mt Window Class";//РёРјСЏ РєР»Р°СЃСЃР° РѕРєРЅР°
 
 
 std::vector<std::string> LoadCurcorsFromDir(const std::string& directory);
@@ -20,30 +20,30 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
 	/*
-	HINSTANCE - экземпляр исполняемого файла программы в оперативной памяти.
-	Если нужно обратиться к *.exe-файлу это можно сделать через hInstance.
-	hInstance всегда можно помучить при помощи функции GetModuleHandle(NULL).
+	HINSTANCE - СЌРєР·РµРјРїР»СЏСЂ РёСЃРїРѕР»РЅСЏРµРјРѕРіРѕ С„Р°Р№Р»Р° РїСЂРѕРіСЂР°РјРјС‹ РІ РѕРїРµСЂР°С‚РёРІРЅРѕР№ РїР°РјСЏС‚Рё.
+	Р•СЃР»Рё РЅСѓР¶РЅРѕ РѕР±СЂР°С‚РёС‚СЊСЃСЏ Рє *.exe-С„Р°Р№Р»Сѓ СЌС‚Рѕ РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ С‡РµСЂРµР· hInstance.
+	hInstance РІСЃРµРіРґР° РјРѕР¶РЅРѕ РїРѕРјСѓС‡РёС‚СЊ РїСЂРё РїРѕРјРѕС‰Рё С„СѓРЅРєС†РёРё GetModuleHandle(NULL).
 
-	hPrevInst - предыдущий экземпляр программы. Этот параметр двано не используется.
+	hPrevInst - РїСЂРµРґС‹РґСѓС‰РёР№ СЌРєР·РµРјРїР»СЏСЂ РїСЂРѕРіСЂР°РјРјС‹. Р­С‚РѕС‚ РїР°СЂР°РјРµС‚СЂ РґРІР°РЅРѕ РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ.
 
-	lpCmdLine - командная строка из которой запустилась программа. 
-	Через эту командную строку программу можно передать в файл или URL. 
+	lpCmdLine - РєРѕРјР°РЅРґРЅР°СЏ СЃС‚СЂРѕРєР° РёР· РєРѕС‚РѕСЂРѕР№ Р·Р°РїСѓСЃС‚РёР»Р°СЃСЊ РїСЂРѕРіСЂР°РјРјР°. 
+	Р§РµСЂРµР· СЌС‚Сѓ РєРѕРјР°РЅРґРЅСѓСЋ СЃС‚СЂРѕРєСѓ РїСЂРѕРіСЂР°РјРјСѓ РјРѕР¶РЅРѕ РїРµСЂРµРґР°С‚СЊ РІ С„Р°Р№Р» РёР»Рё URL. 
 
 	LPSTR - lp - Long Pointer
 
-	nCmdShow - режум отбражения окнаб свернуто в окноб свернуто в панель задач, заревнуто на весь экран
+	nCmdShow - СЂРµР¶СѓРј РѕС‚Р±СЂР°Р¶РµРЅРёСЏ РѕРєРЅР°Р± СЃРІРµСЂРЅСѓС‚Рѕ РІ РѕРєРЅРѕР± СЃРІРµСЂРЅСѓС‚Рѕ РІ РїР°РЅРµР»СЊ Р·Р°РґР°С‡, Р·Р°СЂРµРІРЅСѓС‚Рѕ РЅР° РІРµСЃСЊ СЌРєСЂР°РЅ
 	n - number
 	*/
 
-	//Создание главного окна
-	//1) регистрация класса окна
+	//РЎРѕР·РґР°РЅРёРµ РіР»Р°РІРЅРѕРіРѕ РѕРєРЅР°
+	//1) СЂРµРіРёСЃС‚СЂР°С†РёСЏ РєР»Р°СЃСЃР° РѕРєРЅР°
 	WNDCLASSEX wc;
-	ZeroMemory(&wc, sizeof(wc));//Обнуляем класс
+	ZeroMemory(&wc, sizeof(wc));//РћР±РЅСѓР»СЏРµРј РєР»Р°СЃСЃ
 
-	wc.cbSize = sizeof(wc);// cb - Count Bytes(кол-во байт)
-	wc.cbWndExtra = 0;// Дополнительные байты окна
-	wc.cbClsExtra = 0; // дополнительные байты класса окна
-	wc.style = 0;//стиль окна
+	wc.cbSize = sizeof(wc);// cb - Count Bytes(РєРѕР»-РІРѕ Р±Р°Р№С‚)
+	wc.cbWndExtra = 0;// Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ Р±Р°Р№С‚С‹ РѕРєРЅР°
+	wc.cbClsExtra = 0; // РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ Р±Р°Р№С‚С‹ РєР»Р°СЃСЃР° РѕРєРЅР°
+	wc.style = 0;//СЃС‚РёР»СЊ РѕРєРЅР°
 
 	//wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_coffee));
 	//wc.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_cuces));//Sm - small
@@ -53,10 +53,10 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	//wc.hCursor = (HCURSOR)LoadImage(hInstance, "cursors.ani", IMAGE_CURSOR, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
 	wc.hbrBackground = HBRUSH(COLOR_WINDOW + 1);
 
-	wc.hInstance = hInstance; //hInstance - экзаемпляр исполняемого файла программы в памяти
-	//функция WinMain() принимает hInstance как параметры и поэтому к нему есть прямой доступ
-	//В любой другой функции hInstance всегда можно получить при помощи фунции GetModuleHande(NULL)
-	wc.lpfnWndProc = WndProc; // указатель на процедуру окна
+	wc.hInstance = hInstance; //hInstance - СЌРєР·Р°РµРјРїР»СЏСЂ РёСЃРїРѕР»РЅСЏРµРјРѕРіРѕ С„Р°Р№Р»Р° РїСЂРѕРіСЂР°РјРјС‹ РІ РїР°РјСЏС‚Рё
+	//С„СѓРЅРєС†РёСЏ WinMain() РїСЂРёРЅРёРјР°РµС‚ hInstance РєР°Рє РїР°СЂР°РјРµС‚СЂС‹ Рё РїРѕСЌС‚РѕРјСѓ Рє РЅРµРјСѓ РµСЃС‚СЊ РїСЂСЏРјРѕР№ РґРѕСЃС‚СѓРї
+	//Р’ Р»СЋР±РѕР№ РґСЂСѓРіРѕР№ С„СѓРЅРєС†РёРё hInstance РІСЃРµРіРґР° РјРѕР¶РЅРѕ РїРѕР»СѓС‡РёС‚СЊ РїСЂРё РїРѕРјРѕС‰Рё С„СѓРЅС†РёРё GetModuleHande(NULL)
+	wc.lpfnWndProc = WndProc; // СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїСЂРѕС†РµРґСѓСЂСѓ РѕРєРЅР°
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = g_sz_WINDOW_CLASS;
 
@@ -65,7 +65,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		MessageBox(NULL, "Class Registration failed", "Error", MB_OK | MB_ICONERROR);
 		return 0;
 	}
-	//2) создание окна
+	//2) СЃРѕР·РґР°РЅРёРµ РѕРєРЅР°
 	INT screen_width = GetSystemMetrics(SM_CXSCREEN);
 	INT screen_height = GetSystemMetrics(SM_CYSCREEN);
 	//CHAR sz_msg[MAX_PATH]{};
@@ -81,13 +81,13 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		NULL, //ExStyle
 		g_sz_WINDOW_CLASS,// class name
 		g_sz_WINDOW_CLASS,// window name
-		WS_OVERLAPPEDWINDOW,//у главного окна всегда будет такой стиль
-		start_x, start_y,//Position - положение окна на экране
-		window_width, window_height,// Size - размер окна
+		WS_OVERLAPPEDWINDOW,//Сѓ РіР»Р°РІРЅРѕРіРѕ РѕРєРЅР° РІСЃРµРіРґР° Р±СѓРґРµС‚ С‚Р°РєРѕР№ СЃС‚РёР»СЊ
+		start_x, start_y,//Position - РїРѕР»РѕР¶РµРЅРёРµ РѕРєРЅР° РЅР° СЌРєСЂР°РЅРµ
+		window_width, window_height,// Size - СЂР°Р·РјРµСЂ РѕРєРЅР°
 		NULL,//Parebt window
 		//---------------------------------------------------------------------------
-		NULL, // hMenu - для главного окна этот параметр содержит ID ресурса меню 
-		      //Для дочернего она, которое является элементом другого окна hMenu передается ID ресурса этого элемента
+		NULL, // hMenu - РґР»СЏ РіР»Р°РІРЅРѕРіРѕ РѕРєРЅР° СЌС‚РѕС‚ РїР°СЂР°РјРµС‚СЂ СЃРѕРґРµСЂР¶РёС‚ ID СЂРµСЃСѓСЂСЃР° РјРµРЅСЋ 
+		      //Р”Р»СЏ РґРѕС‡РµСЂРЅРµРіРѕ РѕРЅР°, РєРѕС‚РѕСЂРѕРµ СЏРІР»СЏРµС‚СЃСЏ СЌР»РµРјРµРЅС‚РѕРј РґСЂСѓРіРѕРіРѕ РѕРєРЅР° hMenu РїРµСЂРµРґР°РµС‚СЃСЏ ID СЂРµСЃСѓСЂСЃР° СЌС‚РѕРіРѕ СЌР»РµРјРµРЅС‚Р°
 		//---------------------------------------------------------------------------
 		hInstance,
 		NULL
@@ -98,7 +98,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	}
 	ShowWindow(hwnd, nCmdShow);
 	UpdateWindow(hwnd);
-	//3) запуск цикла сообщейний
+	//3) Р·Р°РїСѓСЃРє С†РёРєР»Р° СЃРѕРѕР±С‰РµР№РЅРёР№
 	MSG msg;
 	while (GetMessage(&msg, 0, 0, 0) > 0)
 	{
@@ -185,7 +185,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				LR_DEFAULTSIZE, LR_DEFAULTSIZE,
 				LR_LOADFROMFILE);
 			//SetCursorPos(500, 200);
-			//Задали курсор для окна, кнопки--------------------------------------------
+			//Р—Р°РґР°Р»Рё РєСѓСЂСЃРѕСЂ РґР»СЏ РѕРєРЅР°, РєРЅРѕРїРєРё--------------------------------------------
 			SetClassLong(hwnd, GCL_HCURSOR, (LONG)hCursor);
 			SetClassLong(GetDlgItem(hwnd, IDC_BUTTON_APPLY), GCL_HCURSOR, (LONG)hCursor);
 			SetClassLong(GetDlgItem(hwnd, IDC_COMBO), GCL_HCURSOR, (LONG)hCursor);
@@ -213,7 +213,7 @@ std::vector<std::string> LoadCurcorsFromDir(const std::string& directory)
 		FindNextFile(hFind, &data);
 		)
 	{
-		//const char* std::string::c_str() возвращает си строку хнарящийся в обьекте std::string
+		//const char* std::string::c_str() РІРѕР·РІСЂР°С‰Р°РµС‚ СЃРё СЃС‚СЂРѕРєСѓ С…РЅР°СЂСЏС‰РёР№СЃСЏ РІ РѕР±СЊРµРєС‚Рµ std::string
 		if(
 			strcmp(strrchr(data.cFileName, '.'), ".cur") == 0 ||
 			strcmp(strrchr(data.cFileName, '.'), ".ani") == 0
