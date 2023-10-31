@@ -1,10 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include<Windows.h>
-#include<stdio.h>
 #include"resource.h"
 
-CONST CHAR g_sz_WINDOW_CLASS[] = "Class Calculator";//имя класса окна
+CONST CHAR g_sz_WINDOW_CLASS[] = "Calculator Class";//имя класса окна
+
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -20,6 +20,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	wc.style = 0;//стиль окна
 
 	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
+	wc.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));//Sm - small
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = HBRUSH(COLOR_WINDOW + 1);
 
@@ -30,26 +31,37 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 
 	if (!RegisterClassEx(&wc))
 	{
-		MessageBox(NULL, "Calculator Registration failed", "Error", MB_OK | MB_ICONERROR);
+		MessageBox(NULL, "Class Registration failed", "Error", MB_OK | MB_ICONERROR);
 		return 0;
 	}
 	//2) создание окна
+	INT screen_width = GetSystemMetrics(SM_CXSCREEN);
+	INT screen_height = GetSystemMetrics(SM_CYSCREEN);
+
+	INT window_width = screen_width * 1 / 4;
+	INT window_height = screen_height * 1 / 4;
+
+	INT start_x = screen_width / 4;
+	INT start_y = screen_height / 4;
 	HWND hwnd = CreateWindowEx
 	(
 		NULL, //ExStyle
 		g_sz_WINDOW_CLASS,// class name
 		g_sz_WINDOW_CLASS,// window name
-		WS_OVERLAPPEDWINDOW,//у главного окна всегда будет такой стиль
-		CW_USEDEFAULT,CW_USEDEFAULT,//Position - положение окна на экране
-		CW_USEDEFAULT,CW_USEDEFAULT,// Size - размер окна
-		NULL,
-		NULL, 
+		WS_SYSMENU,//у главного окна всегда будет такой стиль
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		500, 500,
+		NULL,//Parebt window
+		//---------------------------------------------------------------------------
+		NULL, // hMenu - для главного окна этот параметр содержит ID ресурса меню 
+		//Для дочернего она, которое является элементом другого окна hMenu передается ID ресурса этого элемента
+  //---------------------------------------------------------------------------
 		hInstance,
 		NULL
 	);
 	if (hwnd == NULL)
 	{
-		MessageBox(NULL, "Calculator Registration failed", "Error", MB_OK | MB_ICONERROR);
+		MessageBox(NULL, "Class Registration failed", "Error", MB_OK | MB_ICONERROR);
 	}
 	ShowWindow(hwnd, nCmdShow);
 	UpdateWindow(hwnd);
@@ -65,5 +77,18 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	switch (uMsg)
+	{
+	case WM_CREATE:
+	{
 
+	}
+	break;
+	case WM_COMMAND:
+		break;
+	case WM_DESTROY: PostQuitMessage(0); break;
+	case WM_CLOSE:   DestroyWindow(hwnd); break;
+	default: return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	}
+	return NULL;
 }
