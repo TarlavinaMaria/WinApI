@@ -19,8 +19,9 @@ CONST CHAR g_sz_WINDOW_CLASS[] = "Calculator Class";//им€ класса окна
 #define ID_BUTTON_MIN    111
 #define ID_BUTTON_MUL    112
 #define ID_BUTTON_DEL    113
-#define ID_BUTTON_MAIN   114
-#define ID_BUTTON_REM    115
+#define ID_BUTTON_MAIN   114//равно
+#define ID_BUTTON_REM    115//удалить
+#define ID_BUTTON_DOT    116//точка
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -97,8 +98,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
-		//int a = 0, b = 0;
-		
 	case WM_CREATE:
 	{
 		HWND hEdit = CreateWindow//¬вод
@@ -298,10 +297,22 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			"button", 
 			"=", 
 			WS_CHILD | WS_VISIBLE, 
+			40, 220,
+			150, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_MAIN,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_dot = CreateWindow//точка
+		(
+			"button", 
+			".", 
+			WS_CHILD | WS_VISIBLE, 
 			120, 180,
 			30, 30,
 			hwnd, 
-			(HMENU)ID_BUTTON_MAIN,
+			(HMENU)ID_BUTTON_DOT,
 			GetModuleHandle(NULL),
 			NULL
 		);
@@ -309,6 +320,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	break;
 	case WM_COMMAND:
+		if ((LOWORD(wParam) == ID_BUTTON_1) && (HIWORD(wParam) == BN_CLICKED))
+		{
+
+		}
 		break;
 	case WM_DESTROY: PostQuitMessage(0); break;
 	case WM_CLOSE:   DestroyWindow(hwnd); break;
