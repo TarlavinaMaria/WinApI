@@ -1,13 +1,13 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 
 #include<Windows.h>
 #include<stdio.h>
 #include"resource.h"
 
-CONST CHAR g_sz_WINDOW_CLASS[] = "Calculator Class";//имя класса окна
+CONST CHAR g_sz_WINDOW_CLASS[] = "Calculator Class";//РёРјСЏ РєР»Р°СЃСЃР° РѕРєРЅР°
 TCHAR buf[256];
 
-#define IDI_EDIT  100 //поле ввода
+#define IDI_EDIT  100 //РїРѕР»Рµ РІРІРѕРґР°
 #define IDI_BUTTON_1  101
 #define ID_BUTTON_2  102
 #define ID_BUTTON_3  103
@@ -21,31 +21,31 @@ TCHAR buf[256];
 #define ID_BUTTON_MIN    111
 #define ID_BUTTON_MUL    112
 #define ID_BUTTON_DEL    113
-#define ID_BUTTON_MAIN   114//равно
-#define ID_BUTTON_REM    115//удалить
-#define ID_BUTTON_DOT    116//точка
+#define ID_BUTTON_MAIN   114//СЂР°РІРЅРѕ
+#define ID_BUTTON_REM    115//СѓРґР°Р»РёС‚СЊ
+#define ID_BUTTON_DOT    116//С‚РѕС‡РєР°
 
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
-	//1) регистрация класса окна
+	//1) СЂРµРіРёСЃС‚СЂР°С†РёСЏ РєР»Р°СЃСЃР° РѕРєРЅР°
 	WNDCLASSEX wc;
-	ZeroMemory(&wc, sizeof(wc));//Обнуляем класс
+	ZeroMemory(&wc, sizeof(wc));//РћР±РЅСѓР»СЏРµРј РєР»Р°СЃСЃ
 
-	wc.cbSize = sizeof(wc);// cb - Count Bytes(кол-во байт)
-	wc.cbWndExtra = 0;// Дополнительные байты окна
-	wc.cbClsExtra = 0; // дополнительные байты класса окна
-	wc.style = 0;//стиль окна
+	wc.cbSize = sizeof(wc);// cb - Count Bytes(РєРѕР»-РІРѕ Р±Р°Р№С‚)
+	wc.cbWndExtra = 0;// Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ Р±Р°Р№С‚С‹ РѕРєРЅР°
+	wc.cbClsExtra = 0; // РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ Р±Р°Р№С‚С‹ РєР»Р°СЃСЃР° РѕРєРЅР°
+	wc.style = 0;//СЃС‚РёР»СЊ РѕРєРЅР°
 
 	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	wc.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));//Sm - small
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = HBRUSH(COLOR_WINDOW + 1);
 
-	wc.hInstance = hInstance; //hInstance - экзаемпляр исполняемого файла программы в памяти
-	wc.lpfnWndProc = WndProc; // указатель на процедуру окна
+	wc.hInstance = hInstance; //hInstance - СЌРєР·Р°РµРјРїР»СЏСЂ РёСЃРїРѕР»РЅСЏРµРјРѕРіРѕ С„Р°Р№Р»Р° РїСЂРѕРіСЂР°РјРјС‹ РІ РїР°РјСЏС‚Рё
+	wc.lpfnWndProc = WndProc; // СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїСЂРѕС†РµРґСѓСЂСѓ РѕРєРЅР°
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = g_sz_WINDOW_CLASS;
 
@@ -54,20 +54,20 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		MessageBox(NULL, "Class Registration failed", "Error", MB_OK | MB_ICONERROR);
 		return 0;
 	}
-	//2) создание окна
+	//2) СЃРѕР·РґР°РЅРёРµ РѕРєРЅР°
 
 	HWND hwnd = CreateWindowEx
 	(
 		NULL, //ExStyle
 		g_sz_WINDOW_CLASS,// class name
 		g_sz_WINDOW_CLASS,// window name
-		WS_SYSMENU,//у главного окна всегда будет такой стиль
+		WS_SYSMENU,//Сѓ РіР»Р°РІРЅРѕРіРѕ РѕРєРЅР° РІСЃРµРіРґР° Р±СѓРґРµС‚ С‚Р°РєРѕР№ СЃС‚РёР»СЊ
 		200, 200,
 		300, 300,
 		NULL,//Parebt window
 		//---------------------------------------------------------------------------
-		NULL, // hMenu - для главного окна этот параметр содержит ID ресурса меню 
-		//Для дочернего она, которое является элементом другого окна hMenu передается ID ресурса этого элемента
+		NULL, // hMenu - РґР»СЏ РіР»Р°РІРЅРѕРіРѕ РѕРєРЅР° СЌС‚РѕС‚ РїР°СЂР°РјРµС‚СЂ СЃРѕРґРµСЂР¶РёС‚ ID СЂРµСЃСѓСЂСЃР° РјРµРЅСЋ 
+		//Р”Р»СЏ РґРѕС‡РµСЂРЅРµРіРѕ РѕРЅР°, РєРѕС‚РѕСЂРѕРµ СЏРІР»СЏРµС‚СЃСЏ СЌР»РµРјРµРЅС‚РѕРј РґСЂСѓРіРѕРіРѕ РѕРєРЅР° hMenu РїРµСЂРµРґР°РµС‚СЃСЏ ID СЂРµСЃСѓСЂСЃР° СЌС‚РѕРіРѕ СЌР»РµРјРµРЅС‚Р°
   //---------------------------------------------------------------------------
 		hInstance,
 		NULL
@@ -76,10 +76,10 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	{
 		MessageBox(NULL, "Class Registration failed", "Error", MB_OK | MB_ICONERROR);
 	}
-	//Отображаем окно
+	//РћС‚РѕР±СЂР°Р¶Р°РµРј РѕРєРЅРѕ
 	ShowWindow(hwnd, nCmdShow);
 	UpdateWindow(hwnd);
-	//3) запуск цикла сообщейний
+	//3) Р·Р°РїСѓСЃРє С†РёРєР»Р° СЃРѕРѕР±С‰РµР№РЅРёР№
 	MSG msg;
 	while (GetMessage(&msg, 0, 0, 0) > 0)
 	{
@@ -96,7 +96,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE:
 	{
-		HWND hEdit = CreateWindow//Ввод
+		HWND hEdit = CreateWindow//Р’РІРѕРґ
 		(
 			"edit",
 			"",
@@ -228,7 +228,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-		HWND hbutton_rem = CreateWindow//Удалить
+		HWND hbutton_rem = CreateWindow//РЈРґР°Р»РёС‚СЊ
 		(
 			"button",
 			"C",
@@ -300,7 +300,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-		HWND hbutton_dot = CreateWindow//точка
+		HWND hbutton_dot = CreateWindow//С‚РѕС‡РєР°
 		(
 			"button",
 			".",
