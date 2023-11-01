@@ -5,6 +5,22 @@
 
 CONST CHAR g_sz_WINDOW_CLASS[] = "Calculator Class";//имя класса окна
 
+#define ID_EDIT  100
+#define ID_BUTTON_1  101
+#define ID_BUTTON_2  102
+#define ID_BUTTON_3  103
+#define ID_BUTTON_4  104
+#define ID_BUTTON_5  105
+#define ID_BUTTON_6  106
+#define ID_BUTTON_7  107
+#define ID_BUTTON_8  108
+#define ID_BUTTON_9  109
+#define ID_BUTTON_ADD    110
+#define ID_BUTTON_MIN    111
+#define ID_BUTTON_MUL    112
+#define ID_BUTTON_DEL    113
+#define ID_BUTTON_MAIN   114
+#define ID_BUTTON_REM    115
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -63,6 +79,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	{
 		MessageBox(NULL, "Class Registration failed", "Error", MB_OK | MB_ICONERROR);
 	}
+	//Отображаем окно
 	ShowWindow(hwnd, nCmdShow);
 	UpdateWindow(hwnd);
 	//3) запуск цикла сообщейний
@@ -75,13 +92,220 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	return msg.wParam;
 }
 
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
+		//int a = 0, b = 0;
+		
 	case WM_CREATE:
 	{
-
+		HWND hEdit = CreateWindow//Ввод
+		(
+			"edit", 
+			"", 
+			WS_CHILD | WS_VISIBLE | WS_BORDER | ES_CENTER, 
+			20, 20, 
+			200, 20,
+			hwnd, 
+			(HMENU)ID_EDIT, 
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_1  = CreateWindow
+		(
+			"button", 
+			"1", 
+			WS_CHILD | WS_VISIBLE, 
+			40, 60, 
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_1,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_2  = CreateWindow
+		(
+			"button", 
+			"2", 
+			WS_CHILD | WS_VISIBLE, 
+			80, 60, 
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_2,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_3  = CreateWindow
+		(
+			"button", 
+			"3", 
+			WS_CHILD | WS_VISIBLE, 
+			120,60, 
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_3,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_4  = CreateWindow
+		(
+			"button", 
+			"4", 
+			WS_CHILD | WS_VISIBLE, 
+			40, 100,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_4,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_5  = CreateWindow
+		(
+			"button", 
+			"5", 
+			WS_CHILD | WS_VISIBLE, 
+			80, 100,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_5,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_6  = CreateWindow
+		(
+			"button", 
+			"6", 
+			WS_CHILD | WS_VISIBLE, 
+			120, 100,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_6,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_7  = CreateWindow
+		(
+			"button", 
+			"7", 
+			WS_CHILD | WS_VISIBLE, 
+			40, 140,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_7,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_8  = CreateWindow
+		(
+			"button", 
+			"8", 
+			WS_CHILD | WS_VISIBLE, 
+			80, 140,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_8,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_9  = CreateWindow
+		(
+			"button", 
+			"9", 
+			WS_CHILD | WS_VISIBLE, 
+			120, 140,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_9,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_0  = CreateWindow
+		(
+			"button", 
+			"0", 
+			WS_CHILD | WS_VISIBLE, 
+			40, 180,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_9,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_rem  = CreateWindow//Удалить
+		(
+			"button", 
+			"C", 
+			WS_CHILD | WS_VISIBLE, 
+			80, 180,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_REM,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_add  = CreateWindow//+
+		(
+			"button", 
+			"+", 
+			WS_CHILD | WS_VISIBLE, 
+			160, 60,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_ADD,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_minus  = CreateWindow//-
+		(
+			"button", 
+			"-", 
+			WS_CHILD | WS_VISIBLE, 
+			160, 100,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_MIN,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_nul = CreateWindow//*
+		(
+			"button", 
+			"*", 
+			WS_CHILD | WS_VISIBLE, 
+			160, 140,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_MUL,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_del = CreateWindow//(/)
+		(
+			"button", 
+			"/", 
+			WS_CHILD | WS_VISIBLE, 
+			160, 180,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_DEL,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		HWND hbutton_main = CreateWindow//=
+		(
+			"button", 
+			"=", 
+			WS_CHILD | WS_VISIBLE, 
+			120, 180,
+			30, 30,
+			hwnd, 
+			(HMENU)ID_BUTTON_MAIN,
+			GetModuleHandle(NULL),
+			NULL
+		);
+		
 	}
 	break;
 	case WM_COMMAND:
