@@ -15,7 +15,7 @@ CONST INT INTERVAL = 10;
 //--------------------------
 
 //----------Пареметры экрана-----------
-CONST INT SCREEN_WIDTH = (BUTTON_SIZE) * 5 ;
+CONST INT SCREEN_WIDTH = (BUTTON_SIZE) * 5;
 CONST INT SCREEN_HEIGTH = 20;
 //-------------------------------------
 
@@ -239,18 +239,20 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	break;
 	case WM_COMMAND:
 	{
+		HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
+		CHAR sz_buffer[MAX_PATH]{};
 		if (LOWORD(wParam) >= IDC_BUTTON_0 && LOWORD(wParam) <= IDC_BUTTON_9 || LOWORD(wParam) == IDC_BUTTON_POINT)
 		{
-			HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
-			CHAR sz_buffer[MAX_PATH]{};
 			SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
+			//Убираем надпись
 			if (strcmp(sz_buffer, "Screen") == 0)
 			{
 				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)"");
 				sz_buffer[0] = 0;
 			}
+			//Убираем повторение точки
 			CHAR sz_digit[2]{};
-			if (LOWORD(wParam) == IDC_BUTTON_POINT) 
+			if (LOWORD(wParam) == IDC_BUTTON_POINT)
 			{
 				if (strchr(sz_buffer, '.'))break;
 				sz_digit[0] = '.';
@@ -259,8 +261,38 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			strcat(sz_buffer, sz_digit);
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
 		}
+		if (LOWORD(wParam) == IDC_BUTTON_CLEAR)
+		{
+			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)"");
+			sz_buffer[0] = 0;
+		}
+		if (LOWORD(wParam) >= IDC_BUTTON_PLUS && LOWORD(wParam) <= IDC_BUTTON_SLASH)
+		{
+			SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
+			if (LOWORD(wParam) == IDC_BUTTON_PLUS)
+			{
+				strcat(sz_buffer, TEXT("+"));
+				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+			}
+			else if(LOWORD(wParam) == IDC_BUTTON_MINUS)
+			{
+				strcat(sz_buffer, TEXT("-"));
+				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+			}
+			else if(LOWORD(wParam) == IDC_BUTTON_ASTER)
+			{
+				strcat(sz_buffer, TEXT("*"));
+				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+			}
+			else if(LOWORD(wParam) == IDC_BUTTON_SLASH)
+			{
+				strcat(sz_buffer, TEXT("/"));
+				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+			}
+			
+		}
 	}
-		break;
+	break;
 	case WM_DESTROY: PostQuitMessage(0); break;
 	case WM_CLOSE:   DestroyWindow(hwnd); break;
 	default: return DefWindowProc(hwnd, uMsg, wParam, lParam);
