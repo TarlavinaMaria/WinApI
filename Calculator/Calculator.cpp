@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include<Windows.h>
+#include<stdio.h>
 #include"resource.h"
 
 
@@ -95,6 +96,10 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	static DOUBLE a = 0, b = 0;
+	static INT operation = 0;
+	static BOOL input = false;// отслеживает ввод чисел
+	static BOOL input_operation = false;// отслеживает ввод операции
 	switch (uMsg)
 	{
 	case WM_CREATE:
@@ -231,7 +236,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			BUTTON_START_X + (BUTTON_SIZE + INTERVAL) * 4, BUTTON_START_Y + BUTTON_DOUBLE_SIZE + INTERVAL,
 			BUTTON_SIZE, BUTTON_DOUBLE_SIZE,
 			hwnd,
-			(HMENU)(IDC_BUTTON_CLEAR),
+			(HMENU)(IDC_BUTTON_EQUAL),
 			GetModuleHandle(NULL),
 			NULL
 		);
@@ -239,10 +244,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	break;
 	case WM_COMMAND:
 	{
-		HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
-		CHAR sz_buffer[MAX_PATH]{};
+			HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
+		//-----------------------------------DIGIT---------------------------------------------------------------------------
 		if (LOWORD(wParam) >= IDC_BUTTON_0 && LOWORD(wParam) <= IDC_BUTTON_9 || LOWORD(wParam) == IDC_BUTTON_POINT)
 		{
+			if (!input)SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)"");
+			input = true;
+			CHAR sz_buffer[MAX_PATH]{};
 			SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
 			//Убираем надпись
 			if (strcmp(sz_buffer, "Screen") == 0)
@@ -260,36 +268,59 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			else sz_digit[0] = LOWORD(wParam) - IDC_BUTTON_0 + 48;
 			strcat(sz_buffer, sz_digit);
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+			input = true;
+		}
+		//-----------------------------------OPERATIONS---------------------------------------------------------------------------
+		if (LOWORD(wParam) >= IDC_BUTTON_PLUS && LOWORD(wParam) <= IDC_BUTTON_SLASH)
+		{
+			//Буфер
+			if (input) // усли ввод цифр
+			{
+				//берем заначение с экрана преобраз в число 
+				CHAR sz_buffer[MAX_PATH]{};
+				SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
+				//Переменная b
+				b = atof(sz_buffer);//преобразование строки в double
+				input = false;
+				if (a == 0) a = b; // если левая операнда пустая
+			}
+			//input = false;
+			if (input_operation)SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_EQUAL, 0);
+			operation = LOWORD(wParam); //сохраняем операцию
+			input_operation = true; // операция была введена
+		}
+		if (LOWORD(wParam) == IDC_BUTTON_EQUAL)
+		{
+			if (input) // усли ввод цифр
+			{
+				//берем заначение с экрана преобраз в число 
+				CHAR sz_buffer[MAX_PATH]{};
+				SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
+				//Переменная b
+				b = atof(sz_buffer);//преобразование строки в double
+				input = false;
+				if (a == 0) a = b; // если левая операнда пустая
+			}
+			switch (operation)
+			{
+			case IDC_BUTTON_PLUS:  a += b; break;
+			case IDC_BUTTON_MINUS: a -= b; break;
+			case IDC_BUTTON_ASTER: a *= b; break;
+			case IDC_BUTTON_SLASH: a /= b; break;
+			}
+			input_operation = false;//операция выполнена
+			CHAR sz_buffer[MAX_PATH]{};
+			sprintf(sz_buffer, "%g", a);//"%g" - округляет
+			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
 		}
 		if (LOWORD(wParam) == IDC_BUTTON_CLEAR)
 		{
+			a = b = 0;
+			operation = 0;
+			input = false;
+			input_operation = false;
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)"");
-			sz_buffer[0] = 0;
-		}
-		if (LOWORD(wParam) >= IDC_BUTTON_PLUS && LOWORD(wParam) <= IDC_BUTTON_SLASH)
-		{
-			SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
-			if (LOWORD(wParam) == IDC_BUTTON_PLUS)
-			{
-				strcat(sz_buffer, TEXT("+"));
-				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
-			}
-			else if(LOWORD(wParam) == IDC_BUTTON_MINUS)
-			{
-				strcat(sz_buffer, TEXT("-"));
-				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
-			}
-			else if(LOWORD(wParam) == IDC_BUTTON_ASTER)
-			{
-				strcat(sz_buffer, TEXT("*"));
-				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
-			}
-			else if(LOWORD(wParam) == IDC_BUTTON_SLASH)
-			{
-				strcat(sz_buffer, TEXT("/"));
-				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
-			}
-			
+
 		}
 	}
 	break;
