@@ -44,7 +44,9 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	wc.cbSize = sizeof(wc);
 	wc.style = 0;
 
-	wc.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
+	//wc.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
+	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CALC));
+	wc.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CALC));
 	wc.hIconSm = LoadIcon(hInstance, IDI_APPLICATION);
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = HBRUSH(COLOR_WINDOW);
