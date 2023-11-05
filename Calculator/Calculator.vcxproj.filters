@@ -33,5 +33,8 @@
     <Image Include="calculator.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
