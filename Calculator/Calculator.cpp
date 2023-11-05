@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+ï»¿#define _CRT_SECURE_NO_WARNINGS
 
 #include<Windows.h>
 #include<stdio.h>
@@ -7,7 +7,7 @@
 
 CONST CHAR g_sz_CLASSNAME[] = "Calculator";
 
-//------Ïàðàìåòðû êíîïîê----
+//------ÐŸÐ°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹ ÐºÐ½Ð¾Ð¿Ð¾Ðº----
 CONST INT START_X = 10;
 CONST INT START_Y = 10;
 
@@ -15,12 +15,12 @@ CONST INT BUTTON_SIZE = 50;
 CONST INT INTERVAL = 10;
 //--------------------------
 
-//----------Ïàðåìåòðû ýêðàíà-----------
+//----------ÐŸÐ°Ñ€ÐµÐ¼ÐµÑ‚Ñ€Ñ‹ ÑÐºÑ€Ð°Ð½Ð°-----------
 CONST INT SCREEN_WIDTH = (BUTTON_SIZE) * 5;
 CONST INT SCREEN_HEIGTH = 20;
 //-------------------------------------
 
-//-------------Ïàðàìåòðû îòíîñòåëüíî ýêðàíà------------------------------
+//-------------ÐŸÐ°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹ Ð¾Ñ‚Ð½Ð¾ÑÑ‚ÐµÐ»ÑŒÐ½Ð¾ ÑÐºÑ€Ð°Ð½Ð°------------------------------
 CONST INT BUTTON_START_X = START_X;
 CONST INT BUTTON_START_Y = START_Y + SCREEN_HEIGTH + INTERVAL * 2;
 //-----------------------------------------------------------------------
@@ -34,7 +34,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
-	//1) ðåãèñòðàöèÿ êëàññà îêíà
+	//1) Ñ€ÐµÐ³Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ñ ÐºÐ»Ð°ÑÑÐ° Ð¾ÐºÐ½Ð°
 
 	WNDCLASSEX wc;
 	ZeroMemory(&wc, sizeof(wc));
@@ -59,14 +59,14 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		MessageBox(NULL, "Class Registration failed", "Error", MB_OK);
 		return 0;
 	}
-	//2) ñîçäàíèå îêíà
+	//2) ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð¾ÐºÐ½Ð°
 
 	HWND hwnd = CreateWindowEx
 	(
 		NULL,
 		g_sz_CLASSNAME,
 		g_sz_CLASSNAME,
-		WS_OVERLAPPEDWINDOW^WS_THICKFRAME^WS_MAXIMIZEBOX,//Îêíî ÿâëÿåòñÿ ïåðåêðûâàþùèìñÿ. Ïåðåêðûâàþùååñÿ îêíî èìååò çàãîëîâîê îêíà è ãðàíèöó. //^ - óáèðàåò ôëàãè
+		WS_OVERLAPPEDWINDOW^WS_THICKFRAME^WS_MAXIMIZEBOX,//ÐžÐºÐ½Ð¾ ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð¿ÐµÑ€ÐµÐºÑ€Ñ‹Ð²Ð°ÑŽÑ‰Ð¸Ð¼ÑÑ. ÐŸÐµÑ€ÐµÐºÑ€Ñ‹Ð²Ð°ÑŽÑ‰ÐµÐµÑÑ Ð¾ÐºÐ½Ð¾ Ð¸Ð¼ÐµÐµÑ‚ Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²Ð¾Ðº Ð¾ÐºÐ½Ð° Ð¸ Ð³Ñ€Ð°Ð½Ð¸Ñ†Ñƒ. //^ - ÑƒÐ±Ð¸Ñ€Ð°ÐµÑ‚ Ñ„Ð»Ð°Ð³Ð¸
 		//WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		(BUTTON_SIZE + INTERVAL) * 5 + BUTTON_START_X * 3, SCREEN_HEIGTH + (BUTTON_SIZE + INTERVAL) * 5 + INTERVAL * 2,
@@ -84,7 +84,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	ShowWindow(hwnd, nCmdShow);
 	UpdateWindow(hwnd);
 
-	//3) çàïóñê öèêëà ñîîáùåéíèé
+	//3) Ð·Ð°Ð¿ÑƒÑÐº Ñ†Ð¸ÐºÐ»Ð° ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ¹Ð½Ð¸Ð¹
 
 	MSG msg;
 	while (GetMessage(&msg, 0, 0, 0) > 0)
@@ -99,8 +99,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static DOUBLE a = 0, b = 0;
 	static INT operation = 0;
-	static BOOL input = false;// îòñëåæèâàåò ââîä ÷èñåë
-	static BOOL input_operation = false;// îòñëåæèâàåò ââîä îïåðàöèè
+	static BOOL input = false;// Ð¾Ñ‚ÑÐ»ÐµÐ¶Ð¸Ð²Ð°ÐµÑ‚ Ð²Ð²Ð¾Ð´ Ñ‡Ð¸ÑÐµÐ»
+	static BOOL input_operation = false;// Ð¾Ñ‚ÑÐ»ÐµÐ¶Ð¸Ð²Ð°ÐµÑ‚ Ð²Ð²Ð¾Ð´ Ð¾Ð¿ÐµÑ€Ð°Ñ†Ð¸Ð¸
 	switch (uMsg)
 	{
 	case WM_CREATE:
@@ -124,7 +124,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 				digit++;
 				sz_digit[0] = digit + 48;
-				CreateWindowEx // Öèôðû
+				CreateWindowEx // Ð¦Ð¸Ñ„Ñ€Ñ‹
 				(
 					NULL, "Button", sz_digit,
 					WS_CHILDWINDOW | WS_VISIBLE | BS_PUSHBUTTON,
@@ -149,7 +149,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-		CreateWindowEx // Òî÷êà
+		CreateWindowEx // Ð¢Ð¾Ñ‡ÐºÐ°
 		(
 			NULL, "Button", ".",
 			WS_CHILDWINDOW | WS_VISIBLE | BS_PUSHBUTTON,
@@ -264,13 +264,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			input = true;
 			CHAR sz_buffer[MAX_PATH]{};
 			SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
-			//Óáèðàåì íàäïèñü
+			//Ð£Ð±Ð¸Ñ€Ð°ÐµÐ¼ Ð½Ð°Ð´Ð¿Ð¸ÑÑŒ
 			if (strcmp(sz_buffer, "Screen") == 0)
 			{
 				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)"");
 				sz_buffer[0] = 0;
 			}
-			//Óáèðàåì ïîâòîðåíèå òî÷êè
+			//Ð£Ð±Ð¸Ñ€Ð°ÐµÐ¼ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÐµÐ½Ð¸Ðµ Ñ‚Ð¾Ñ‡ÐºÐ¸
 			CHAR sz_digit[2]{};
 			if (LOWORD(wParam) == IDC_BUTTON_POINT)
 			{
@@ -285,33 +285,33 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		//-----------------------------------OPERATIONS---------------------------------------------------------------------------
 		if (LOWORD(wParam) >= IDC_BUTTON_PLUS && LOWORD(wParam) <= IDC_BUTTON_SLASH)
 		{
-			//Áóôåð
-			if (input) // óñëè ââîä öèôð
+			//Ð‘ÑƒÑ„ÐµÑ€
+			if (input) // ÑƒÑÐ»Ð¸ Ð²Ð²Ð¾Ð´ Ñ†Ð¸Ñ„Ñ€
 			{
-				//áåðåì çàíà÷åíèå ñ ýêðàíà ïðåîáðàç â ÷èñëî 
+				//Ð±ÐµÑ€ÐµÐ¼ Ð·Ð°Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ñ ÑÐºÑ€Ð°Ð½Ð° Ð¿Ñ€ÐµÐ¾Ð±Ñ€Ð°Ð· Ð² Ñ‡Ð¸ÑÐ»Ð¾ 
 				CHAR sz_buffer[MAX_PATH]{};
 				SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
-				//Ïåðåìåííàÿ b
-				b = atof(sz_buffer);//ïðåîáðàçîâàíèå ñòðîêè â double
+				//ÐŸÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð°Ñ b
+				b = atof(sz_buffer);//Ð¿Ñ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¾Ð²Ð°Ð½Ð¸Ðµ ÑÑ‚Ñ€Ð¾ÐºÐ¸ Ð² double
 				input = false;
-				if (a == 0) a = b; // åñëè ëåâàÿ îïåðàíäà ïóñòàÿ
+				if (a == 0) a = b; // ÐµÑÐ»Ð¸ Ð»ÐµÐ²Ð°Ñ Ð¾Ð¿ÐµÑ€Ð°Ð½Ð´Ð° Ð¿ÑƒÑÑ‚Ð°Ñ
 			}
 			//input = false;
 			if (input_operation)SendMessage(hwnd, WM_COMMAND, IDC_BUTTON_EQUAL, 0);
-			operation = LOWORD(wParam); //ñîõðàíÿåì îïåðàöèþ
-			input_operation = true; // îïåðàöèÿ áûëà ââåäåíà
+			operation = LOWORD(wParam); //ÑÐ¾Ñ…Ñ€Ð°Ð½ÑÐµÐ¼ Ð¾Ð¿ÐµÑ€Ð°Ñ†Ð¸ÑŽ
+			input_operation = true; // Ð¾Ð¿ÐµÑ€Ð°Ñ†Ð¸Ñ Ð±Ñ‹Ð»Ð° Ð²Ð²ÐµÐ´ÐµÐ½Ð°
 		}
 		if (LOWORD(wParam) == IDC_BUTTON_EQUAL)
 		{
-			if (input) // óñëè ââîä öèôð
+			if (input) // ÑƒÑÐ»Ð¸ Ð²Ð²Ð¾Ð´ Ñ†Ð¸Ñ„Ñ€
 			{
-				//áåðåì çàíà÷åíèå ñ ýêðàíà ïðåîáðàç â ÷èñëî 
+				//Ð±ÐµÑ€ÐµÐ¼ Ð·Ð°Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ñ ÑÐºÑ€Ð°Ð½Ð° Ð¿Ñ€ÐµÐ¾Ð±Ñ€Ð°Ð· Ð² Ñ‡Ð¸ÑÐ»Ð¾ 
 				CHAR sz_buffer[MAX_PATH]{};
 				SendMessage(hEdit, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
-				//Ïåðåìåííàÿ b
-				b = atof(sz_buffer);//ïðåîáðàçîâàíèå ñòðîêè â double
+				//ÐŸÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð°Ñ b
+				b = atof(sz_buffer);//Ð¿Ñ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¾Ð²Ð°Ð½Ð¸Ðµ ÑÑ‚Ñ€Ð¾ÐºÐ¸ Ð² double
 				input = false;
-				if (a == 0) a = b; // åñëè ëåâàÿ îïåðàíäà ïóñòàÿ
+				if (a == 0) a = b; // ÐµÑÐ»Ð¸ Ð»ÐµÐ²Ð°Ñ Ð¾Ð¿ÐµÑ€Ð°Ð½Ð´Ð° Ð¿ÑƒÑÑ‚Ð°Ñ
 			}
 			switch (operation)
 			{
@@ -320,9 +320,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			case IDC_BUTTON_ASTER: a *= b; break;
 			case IDC_BUTTON_SLASH: a /= b; break;
 			}
-			input_operation = false;//îïåðàöèÿ âûïîëíåíà
+			input_operation = false;//Ð¾Ð¿ÐµÑ€Ð°Ñ†Ð¸Ñ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð°
 			CHAR sz_buffer[MAX_PATH]{};
-			sprintf(sz_buffer, "%g", a);//"%g" - îêðóãëÿåò
+			sprintf(sz_buffer, "%g", a);//"%g" - Ð¾ÐºÑ€ÑƒÐ³Ð»ÑÐµÑ‚
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
 		}
 		if (LOWORD(wParam) == IDC_BUTTON_BSP)
@@ -343,7 +343,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 	}
 	break;
-	case WM_KEYDOWN://Êåéñ íàçûàòèé ñ êëàâèàòóðû
+	case WM_KEYDOWN://ÐšÐµÐ¹Ñ Ð½Ð°Ð·Ñ‹Ð°Ñ‚Ð¸Ð¹ Ñ ÐºÐ»Ð°Ð²Ð¸Ð°Ñ‚ÑƒÑ€Ñ‹
 	{
 		if (GetKeyState(VK_SHIFT) < 0)
 		{
