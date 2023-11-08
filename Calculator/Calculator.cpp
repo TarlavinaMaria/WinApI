@@ -109,6 +109,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static INT operation = 0;
 	static BOOL input = false;// отслеживает ввод чисел
 	static BOOL input_operation = false;// отслеживает ввод операции
+
+	static CHAR sz_skin[MAX_PATH] = "square_blue";
+	static COLORREF crBackground = RGB(0, 0, 255);
+	
 	switch (uMsg)
 	{
 	case WM_CREATE:
@@ -358,6 +362,23 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 	}
 	break;
+	case WM_CONTEXTMENU:
+	{
+		HMENU hMenu = CreatePopupMenu();
+		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_STRING, IDC_EXIT, "Exit");
+		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
+		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_STRING, IDC_SQUARE_BLUE, "Square blue");
+		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_STRING, IDC_SQUARE_GREEN, "Square green");
+		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_STRING, IDC_ROUND_GREEN, "Square green");
+		switch (TrackPopupMenuEx(hMenu, TPM_BOTTOMALIGN | TPM_LEFTALIGN | TPM_RETURNCMD, LOWORD(lParam), HIWORD(), hwnd, NULL));
+		{
+		case IDC_SQUARE_BLUE: strcpy(sz_skin, "square_blue"); break;
+		case IDC_SQUARE_GREEN: strcpy(sz_skin, "square_green"); break;
+		case IDC_ROUND_GREEN: strcpy(sz_skin, "round_blue"); break; 
+		case IDC_EXIT: SendMessage(hwnd, WM_CLOSE, 0, 0); break;
+		}
+		SetSkin(hwnd, sz_skin);
+	}
 	case WM_DESTROY: PostQuitMessage(0); break;
 	case WM_CLOSE:   DestroyWindow(hwnd); break;
 	default: return DefWindowProc(hwnd, uMsg, wParam, lParam);
@@ -367,12 +388,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 VOID SetSkin(HWND hwnd, CONST CHAR sz_skin[])
 {
 	CONST INT SIZE = 10;
-	CHAR sz_filename[FILENAME_MAX] = {};				//2) Ñîçäàåì è èíèöèàëèçèðóåì èìÿ ôàéëà çíà÷êà
+	CHAR sz_filename[FILENAME_MAX] = {};				
 	for (int i = 0; i < SIZE; i++)
 	{
-		HWND hButton = GetDlgItem(hwnd, IDC_BUTTON_0 + i);	//1) Ïîëó÷àåì îêíî êíîïêè
-		sprintf(sz_filename, "ButtonsBMP\\square_blue\\button_%i.bmp", i);
-		HBITMAP hBitmap = (HBITMAP)LoadImage	//Çàãðóæàåì êàðòèíêó çíà÷êà â ïàìÿòü
+		HWND hButton = GetDlgItem(hwnd, IDC_BUTTON_0 + i);	
+		sprintf(sz_filename, "ButtonsBMP\\%s\\button_%i.bmp", i);
+		HBITMAP hBitmap = (HBITMAP)LoadImage	
 		(
 			GetModuleHandle(NULL),
 			sz_filename,
@@ -380,13 +401,13 @@ VOID SetSkin(HWND hwnd, CONST CHAR sz_skin[])
 			i > 0 ? BUTTON_SIZE : BUTTON_DOUBLE_SIZE, BUTTON_SIZE,
 			LR_LOADFROMFILE
 		);
-		SendMessage(hButton, BM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hBitmap);	//Óñòàíàâëèâàåì çíà÷åê íà êíîïêó
+		SendMessage(hButton, BM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hBitmap);	
 	}
 	for (int i = 0; i < sizeof(BUTTON_NAMES) / sizeof(BUTTON_NAMES[0]); i++)
 	{
-		HWND hButton = GetDlgItem(hwnd, IDC_BUTTON_POINT + i);	//1) Ïîëó÷àåì îêíî êíîïêè
-		sprintf(sz_filename, "ButtonsBMP\\square_blue\\button_%s.bmp", BUTTON_NAMES[i]);
-		HBITMAP hBitmap = (HBITMAP)LoadImage	//Çàãðóæàåì êàðòèíêó çíà÷êà â ïàìÿòü
+		HWND hButton = GetDlgItem(hwnd, IDC_BUTTON_POINT + i);	
+		sprintf(sz_filename, "ButtonsBMP\\%s\\button_%s.bmp", BUTTON_NAMES[i]);
+		HBITMAP hBitmap = (HBITMAP)LoadImage	
 		(
 			GetModuleHandle(NULL),
 			sz_filename,
@@ -394,6 +415,6 @@ VOID SetSkin(HWND hwnd, CONST CHAR sz_skin[])
 			i > 0 ? BUTTON_SIZE : BUTTON_DOUBLE_SIZE, BUTTON_SIZE,
 			LR_LOADFROMFILE
 		);
-		SendMessage(hButton, BM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hBitmap);	//Óñòàíàâëèâàåì çíà÷åê íà êíîïêó
+		SendMessage(hButton, BM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hBitmap);
 	}
 }
